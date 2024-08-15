@@ -1,5 +1,5 @@
 <script setup></script>
 
 <template>
-  <main>HOME</main>
+  <main>CREATE</main>
 </template>
