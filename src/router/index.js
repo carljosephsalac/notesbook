@@ -1,6 +1,6 @@
-import CreateView from '@/views/CreateView.vue'
-import EditView from '@/views/EditView.vue'
 import HomeView from '@/views/HomeView.vue'
+import SavedView from '@/views/SavedView.vue'
+import TrashView from '@/views/TrashView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -12,14 +12,14 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/create',
-      name: 'create',
-      component: CreateView
+      path: '/saved',
+      name: 'saved',
+      component: SavedView
     },
     {
-      path: '/edit',
-      name: 'edit',
-      component: EditView
+      path: '/trash',
+      name: 'trash',
+      component: TrashView
     }
   ]
 })

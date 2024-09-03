@@ -1,7 +1,8 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 import { onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
+import NavBar from './components/NavBar.vue'
 
 // initialize components based on data attribute selectors
 onMounted(() => {
@@ -10,15 +11,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/create">Create</RouterLink>
-        <RouterLink to="/edit">Edit</RouterLink>
-      </nav>
-    </div>
-  </header>
+  <NavBar />
 
   <RouterView />
 </template>
