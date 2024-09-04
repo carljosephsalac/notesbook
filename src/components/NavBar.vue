@@ -11,7 +11,7 @@ import NavLink from './NavLink.vue'
 </script>
 
 <template>
-  <nav class="bg-white border-gray-200 shadow-md dark:bg-gray-900">
+  <nav class="z-10 bg-white border-gray-200 shadow-md dark:bg-gray-900">
     <div class="relative flex items-center justify-between w-screen px-4 py-2">
       <div class="flex space-x-2">
         <RouterLink to="/" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -38,7 +38,7 @@ import NavLink from './NavLink.vue'
             type="text"
             id="search-navbar"
             class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Search Notesbook"
+            placeholder="Search Notes"
           />
         </div>
       </div>
@@ -53,7 +53,7 @@ import NavLink from './NavLink.vue'
           type="text"
           id="search-navbar"
           class="block w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg sm:text-sm ps-10 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search Notesbook"
+          placeholder="Search Notes"
         />
       </div>
 

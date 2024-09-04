@@ -43,7 +43,7 @@ const btnHover = computed(() => (isActive.value ? '' : 'hover:bg-gray-200 dark:h
       class="relative inline-flex flex-col items-center justify-center py-2 rounded-lg md:px-12 group"
       :class="btnHover"
     >
-      <component :is="activeIcon" v-if="isActive" />
+      <component :is="activeIcon" v-if="isActive" class="size-8" />
       <div v-if="isActive" class="absolute w-24 h-1 bg-blue-600 -bottom-1"></div>
       <component :is="icon" v-else />
     </button>
