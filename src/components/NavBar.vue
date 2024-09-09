@@ -11,8 +11,8 @@ import NavLink from './NavLink.vue'
 </script>
 
 <template>
-  <nav class="z-10 bg-white border-gray-200 shadow-md dark:bg-gray-900">
-    <div class="relative flex items-center justify-between w-screen px-4 py-2">
+  <nav class="fixed z-10 w-full bg-white border-gray-200 shadow-md dark:bg-gray-900">
+    <div class="relative flex items-center justify-between w-full px-4 py-2">
       <div class="flex space-x-2">
         <RouterLink to="/" class="flex items-center space-x-3 rtl:space-x-reverse">
           <img src="../assets/notesbook-logo.png" class="h-10 rounded-full" alt="Notesbook Logo" />

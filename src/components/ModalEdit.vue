@@ -1,12 +1,12 @@
 <script setup>
-import IconAdd from './icons/IconAdd.vue'
 import IconClose from './icons/IconClose.vue'
+import IconEdit from './icons/IconEdit.vue'
 </script>
 
 <template>
   <!-- Main modal -->
   <div
-    id="create-modal"
+    id="edit-modal"
     tabindex="-1"
     aria-hidden="true"
     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
@@ -18,11 +18,11 @@ import IconClose from './icons/IconClose.vue'
         <div
           class="flex items-center justify-between p-4 border-b rounded-t md:p-5 dark:border-gray-600"
         >
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Create New Notes</h3>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Edit Notes</h3>
           <button
             type="button"
             class="inline-flex items-center justify-center w-8 h-8 text-sm text-gray-400 bg-transparent rounded-lg hover:bg-gray-200 hover:text-gray-900 ms-auto dark:hover:bg-gray-600 dark:hover:text-white"
-            data-modal-toggle="create-modal"
+            data-modal-toggle="edit-modal"
           >
             <IconClose />
             <span class="sr-only">Close modal</span>
@@ -66,8 +66,8 @@ import IconClose from './icons/IconClose.vue'
             type="submit"
             class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            <IconAdd />
-            Add new notes
+            <IconEdit class="me-1 -ms-1" />
+            Update notes
           </button>
         </form>
       </div>

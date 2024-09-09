@@ -3,11 +3,14 @@ import { RouterView } from 'vue-router'
 import { onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
 import NavBar from './components/NavBar.vue'
+import { useNotesStore } from './stores/notes'
 
 // initialize components based on data attribute selectors
 onMounted(() => {
   initFlowbite()
 })
+
+useNotesStore().getNotes()
 </script>
 
 <template>
