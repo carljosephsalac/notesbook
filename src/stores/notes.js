@@ -46,6 +46,20 @@ export const useNotesStore = defineStore('notes-store', {
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify(newNote)
       }).catch((err) => console.log(err))
+    },
+    updateNotes(id, editedNote) {
+      const note = this.notes.find((n) => n.id === id)
+      note.title = editedNote.title
+      note.body = editedNote.body
+
+      fetch(`http://localhost:3000/notes/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+          title: note.title,
+          body: note.body
+        })
+      }).catch((err) => console.log(err))
     }
   }
 })

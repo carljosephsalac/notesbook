@@ -1,10 +1,9 @@
 <script setup>
 import { initFlowbite } from 'flowbite'
 import { onMounted } from 'vue'
-import ModalCreate from '@/components/ModalCreate.vue'
 import DropDown from '@/components/DropDown.vue'
-import ModalEdit from '@/components/ModalEdit.vue'
 import { useNotesStore } from '@/stores/notes'
+import CreateNotes from '@/components/CreateNotes.vue'
 
 // initialize components based on data attribute selectors
 onMounted(() => {
@@ -51,37 +50,31 @@ const truncateText = (text, length) => {
 }
 
 // truncate text using lastIndexOf() and slice() simplified example
-const sample = () => {
+const sampleTruncate = () => {
   const name = 'carl joseph'
   const spaceIndex = name.lastIndexOf(' ', 10)
   return name.slice(0, spaceIndex) + '...'
 }
-console.log(sample())
+console.log(sampleTruncate())
 
 // logic for getting the note body
-const getBody = (body, expand) => {
-  if (body.length > 400) {
-    return expand ? nl2br(e(body)) : nl2br(e(truncateText(body, 400)))
+const getBody = (note) => {
+  if (note.body.length > 400) {
+    return note.is_expanded ? nl2br(e(note.body)) : nl2br(e(truncateText(note.body, 400)))
   } else {
-    return nl2br(e(body))
+    return nl2br(e(note.body))
   }
 }
+
+const notExpanded = (note) => !note.is_expanded && note.body.length > 400
+
+const expandNote = (note) => (note.is_expanded = true)
 </script>
 
 <template>
   <main class="flex flex-col items-center flex-grow h-auto pt-16 pb-5 bg-gray-100">
     <div class="flex flex-col w-full max-w-3xl gap-4 mt-2">
-      <div class="flex gap-3 p-4 bg-white rounded-lg shadow-md">
-        <img class="rounded-full size-10" src="../assets/profile.jpg" alt="user photo" />
-        <div
-          class="flex-grow px-3 py-2 text-gray-600 bg-gray-100 rounded-full w-fit hover:cursor-pointer hover:bg-gray-200"
-          data-modal-target="create-modal"
-          data-modal-toggle="create-modal"
-        >
-          Create notes
-        </div>
-        <ModalCreate />
-      </div>
+      <CreateNotes />
 
       <div v-for="note in notesStore.sorted" :key="note.id">
         <div class="flex flex-col gap-2 p-4 bg-white rounded-lg shadow-md h-fit">
@@ -93,30 +86,17 @@ const getBody = (body, expand) => {
                 <small class="text-gray-600">{{ note.created_at }}</small>
               </div>
             </div>
-            <DropDown :id="note.id" />
-            <ModalEdit />
+            <DropDown :note="note" />
+            <!-- <ModalEdit /> -->
           </div>
 
           <p class="font-semibold leading-5">{{ note.title }}</p>
 
           <div class="p-2 border border-gray-300 rounded-xl">
-            <!-- <div v-if="note.body.length > 400">
-              <div v-if="note.is_expanded" v-html="nl2br(e(note.body))"></div>
-              <span v-else v-html="nl2br(e(truncateText(note.body, 400)))"></span>
-              <span
-                v-if="!note.is_expanded"
-                @click="note.is_expanded = true"
-                class="font-semibold hover:underline hover:cursor-pointer"
-              >
-                See more
-              </span>
-            </div>
-            <div v-else v-html="nl2br(e(note.body))"></div> -->
-
-            <span v-html="getBody(note.body, note.is_expanded)"></span>
+            <span v-html="getBody(note)"></span>
             <span
-              v-if="!note.is_expanded && note.body.length > 400"
-              @click="note.is_expanded = true"
+              v-if="notExpanded(note)"
+              @click="expandNote(note)"
               class="font-semibold hover:underline hover:cursor-pointer"
             >
               See more
