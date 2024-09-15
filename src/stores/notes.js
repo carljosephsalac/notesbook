@@ -9,9 +9,7 @@ export const useNotesStore = defineStore('notes-store', {
   },
   // Computed
   getters: {
-    sorted() {
-      return this.notes.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-    }
+    sorted: (state) => state.notes.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
   },
   // Method
   actions: {

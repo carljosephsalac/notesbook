@@ -27,12 +27,6 @@ const isFormInvalid = computed(() => {
   return userNote.title === '' || userNote.body === ''
 })
 
-const btnDisable = computed(() =>
-  isFormInvalid.value
-    ? 'bg-blue-400 dark:bg-blue-500 cursor-not-allowed'
-    : 'bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-)
-
 const update = async () => {
   useNotesStore().updateNotes(props.note.id, userNote)
   document.getElementById(`close-modal${props.note.id}`).click()
@@ -65,7 +59,7 @@ const update = async () => {
           <TextareaModal v-model="userNote.body" />
         </div>
       </div>
-      <BtnIconPrimary :disabled="isFormInvalid" :class="btnDisable">
+      <BtnIconPrimary :disabled="isFormInvalid">
         <IconEdit class="me-1 -ms-1" />
         Update notes
       </BtnIconPrimary>
