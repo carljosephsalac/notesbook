@@ -5,6 +5,8 @@ import IconTrashSolid from '@/components/icons/IconTrashSolid.vue'
 import IconEdit from '@/components/icons/IconEdit.vue'
 import ModalEdit from './ModalEdit.vue'
 import DropDownItem from './DropDownItem.vue'
+import IconUnsaved from './icons/IconUnsaved.vue'
+import { useNotesStore } from '@/stores/notes'
 
 defineProps({
   note: {
@@ -12,6 +14,8 @@ defineProps({
     required: true
   }
 })
+
+const noteStore = useNotesStore()
 </script>
 
 <template>
@@ -30,7 +34,11 @@ defineProps({
         class="py-2 text-sm text-gray-700 dark:text-gray-200"
         :aria-labelledby="`dropdownMenuIconButton${note.id}`"
       >
-        <DropDownItem>
+        <DropDownItem v-if="note.is_saved" @click="noteStore.saveNotes(note.id)">
+          <IconUnsaved />
+          Unsave notes
+        </DropDownItem>
+        <DropDownItem v-else @click="noteStore.saveNotes(note.id)">
           <IconSavedSolid class="text-gray-800 size-5" />
           Save notes
         </DropDownItem>
@@ -39,7 +47,7 @@ defineProps({
           Move to trash
         </DropDownItem>
       </ul>
-      <div class="py-2">
+      <div class="py-2 text-gray-700 dark:text-gray-200">
         <a
           :data-modal-target="`edit-modal${note.id}`"
           :data-modal-toggle="`edit-modal${note.id}`"

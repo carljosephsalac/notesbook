@@ -58,6 +58,16 @@ export const useNotesStore = defineStore('notes-store', {
           body: note.body
         })
       }).catch((err) => console.log(err))
+    },
+    saveNotes(id) {
+      const note = this.notes.find((n) => n.id === id)
+      note.is_saved = !note.is_saved
+
+      fetch(`http://localhost:3000/notes/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({ is_saved: note.is_saved })
+      }).catch((err) => console.log(err))
     }
   }
 })
