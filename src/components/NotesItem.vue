@@ -1,7 +1,8 @@
 <script setup>
 import DropDown from '@/components/DropDown.vue'
+import { computed, nextTick, ref } from 'vue'
 
-defineProps({
+const props = defineProps({
   note: {
     type: Object,
     required: true
@@ -46,15 +47,18 @@ const truncateText = (text, length) => {
 }
 
 // truncate text using lastIndexOf() and slice() simplified example
-const sampleTruncate = () => {
+/* const sampleTruncate = () => {
   const name = 'carl joseph'
   const spaceIndex = name.lastIndexOf(' ', 10)
   return name.slice(0, spaceIndex) + '...'
 }
 console.log(sampleTruncate())
+*/
+
+const note = props.note
 
 // logic for getting the note body
-const getBody = (note) => {
+const getBody = () => {
   if (note.body.length > 400) {
     return note.is_expanded ? nl2br(e(note.body)) : nl2br(e(truncateText(note.body, 400)))
   } else {
@@ -62,13 +66,49 @@ const getBody = (note) => {
   }
 }
 
-const notExpanded = (note) => !note.is_expanded && note.body.length > 400
+const isExpanded = computed(() => {
+  return note.is_expanded ? 'block ms-1 mt-1' : 'inline ms-1 mt-1'
+})
 
-const expandNote = (note) => (note.is_expanded = true)
+const longNote = () => note.body.length > 400
+
+// Ref to store the note's DOM element
+const noteRef = ref(null)
+
+const toggleNote = async () => {
+  // Ensure noteRef is set before proceeding
+  if (noteRef.value) {
+    const currentScrollPos = window.scrollY
+
+    if (note.is_expanded) {
+      // Save the height of the note before collapsing
+      const previousHeight = noteRef.value.clientHeight
+
+      // Toggle the note's expansion
+      note.is_expanded = !note.is_expanded
+
+      // Wait for DOM updates
+      await nextTick()
+
+      // Calculate the height difference after collapsing
+      const newHeight = noteRef.value.clientHeight
+      const heightDifference = previousHeight - newHeight
+
+      // Adjust the scroll position to maintain the view
+      window.scrollTo({ top: currentScrollPos - heightDifference })
+    } else {
+      // Expand the note without scroll adjustment
+      note.is_expanded = !note.is_expanded
+
+      // Smooth scroll to keep position after expanding
+      window.scrollTo({ top: currentScrollPos })
+    }
+  }
+}
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 p-4 bg-white rounded-lg shadow-md h-fit">
+  <div class="flex flex-col gap-2 p-4 bg-white rounded-lg shadow-md h-fit" ref="noteRef">
     <div class="flex justify-between">
       <div class="flex">
         <img class="rounded-full size-10 me-2" src="../assets/profile.jpg" alt="user photo" />
@@ -84,14 +124,12 @@ const expandNote = (note) => (note.is_expanded = true)
     <p class="font-semibold leading-5">{{ note.title }}</p>
 
     <div class="p-2 border border-gray-300 rounded-xl">
-      <span v-html="getBody(note)"></span>
-      <span
-        v-if="notExpanded(note)"
-        @click="expandNote(note)"
-        class="font-semibold hover:underline hover:cursor-pointer"
-      >
-        See more
-      </span>
+      <span v-html="getBody()"></span>
+      <div v-if="longNote()" :class="isExpanded">
+        <span @click="toggleNote()" class="font-semibold hover:underline hover:cursor-pointer">
+          {{ !note.is_expanded ? 'See more' : 'See less' }}
+        </span>
+      </div>
     </div>
   </div>
 </template>
