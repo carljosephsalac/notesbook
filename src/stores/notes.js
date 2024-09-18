@@ -22,8 +22,9 @@ export const useNotesStore = defineStore('notes-store', {
         .catch((err) => console.log(err))
     },
     addNotes(note) {
+      const maxId = this.notes.reduce((max, note) => Math.max(max, parseInt(note.id)), 0)
       const newNote = {
-        id: String(this.notes.length + 1),
+        id: String(maxId + 1),
         title: note.title,
         body: note.body,
         author: 'Carl Joseph',
@@ -67,6 +68,23 @@ export const useNotesStore = defineStore('notes-store', {
         method: 'PATCH',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify({ is_saved: note.is_saved })
+      }).catch((err) => console.log(err))
+    },
+    trashNotes(id) {
+      const note = this.notes.find((n) => n.id === id)
+      note.is_trash = !note.is_trash
+
+      fetch(`http://localhost:3000/notes/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({ is_trash: note.is_trash })
+      }).catch((err) => console.log(err))
+    },
+    deleteNotes(id) {
+      this.notes = this.notes.filter((note) => note.id !== id)
+
+      fetch(`http://localhost:3000/notes/${id}`, {
+        method: 'DELETE'
       }).catch((err) => console.log(err))
     }
   }

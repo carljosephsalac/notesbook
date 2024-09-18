@@ -1,12 +1,10 @@
 <script setup>
 import IconDots from '@/components/icons/IconDots.vue'
-import IconSavedSolid from '@/components/icons/IconSavedSolid.vue'
 import IconTrashSolid from '@/components/icons/IconTrashSolid.vue'
-import IconEdit from '@/components/icons/IconEdit.vue'
-import ModalEdit from './ModalEdit.vue'
 import DropDownItem from './DropDownItem.vue'
-import IconUnsaved from './icons/IconUnsaved.vue'
 import { useNotesStore } from '@/stores/notes'
+import IconRestore from './icons/IconRestore.vue'
+import ModalDelete from './ModalDelete.vue'
 
 defineProps({
   note: {
@@ -34,30 +32,19 @@ const noteStore = useNotesStore()
         class="py-2 text-sm text-gray-700 dark:text-gray-200"
         :aria-labelledby="`dropdownMenuIconButton${note.id}`"
       >
-        <DropDownItem v-if="note.is_saved" @click="noteStore.saveNotes(note.id)">
-          <IconUnsaved />
-          Unsave notes
-        </DropDownItem>
-        <DropDownItem v-else @click="noteStore.saveNotes(note.id)">
-          <IconSavedSolid class="text-gray-800 size-5" />
-          Save notes
-        </DropDownItem>
         <DropDownItem @click="noteStore.trashNotes(note.id)">
+          <IconRestore />
+          Restore notes
+        </DropDownItem>
+        <DropDownItem
+          :data-modal-target="`popup-modal${note.id}`"
+          :data-modal-toggle="`popup-modal${note.id}`"
+        >
           <IconTrashSolid class="text-gray-800 size-5" />
-          Move to trash
+          Delete forever
         </DropDownItem>
       </ul>
-      <div class="py-2 text-gray-700 dark:text-gray-200">
-        <a
-          :data-modal-target="`edit-modal${note.id}`"
-          :data-modal-toggle="`edit-modal${note.id}`"
-          class="flex items-center gap-2 px-2 py-2 text-base font-semibold rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        >
-          <IconEdit class="text-gray-800" />
-          Edit notes
-        </a>
-      </div>
     </div>
   </div>
-  <ModalEdit :note="note" />
+  <ModalDelete :id="note.id" />
 </template>

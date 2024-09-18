@@ -1,5 +1,4 @@
 <script setup>
-import DropDown from '@/components/DropDown.vue'
 import { computed, nextTick, ref } from 'vue'
 
 const props = defineProps({
@@ -117,8 +116,7 @@ const toggleNote = async () => {
           <small class="text-gray-600">{{ note.created_at }}</small>
         </div>
       </div>
-      <DropDown :note="note" />
-      <!-- <ModalEdit /> -->
+      <slot></slot>
     </div>
 
     <p class="font-semibold leading-5">{{ note.title }}</p>

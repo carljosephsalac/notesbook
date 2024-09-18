@@ -55,6 +55,16 @@ const router = createRouter({
       return false // Prevent instant scroll
     }
 
+    // If navigating to 'trash' from 'trash', scroll to the top
+    if (to.name === 'trash' && from.name === 'trash') {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth' // Smooth scroll to top
+      })
+      return false // Prevent instant scroll
+    }
+
     // Scroll to top by default when no saved position is available
     return { top: 0 }
   }

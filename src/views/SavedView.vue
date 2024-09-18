@@ -4,6 +4,7 @@ import { onMounted, computed, reactive } from 'vue'
 import { useNotesStore } from '@/stores/notes'
 import NotesItem from '@/components/NotesItem.vue'
 import ViewWrapper from '@/components/ViewWrapper.vue'
+import DropDown from '@/components/DropDown.vue'
 
 // initialize components based on data attribute selectors
 onMounted(() => {
@@ -15,7 +16,7 @@ const notesStore = useNotesStore()
 // notes deep copy with reactivity
 const savedCopy = computed(() => {
   return notesStore.sorted
-    .filter((note) => note.is_saved)
+    .filter((note) => note.is_saved && !note.is_trash)
     .map((s) => reactive(JSON.parse(JSON.stringify(s))))
 })
 
@@ -26,7 +27,9 @@ savedCopy.value.forEach((s) => (s.is_expanded = false))
 <template>
   <ViewWrapper>
     <div v-for="note in savedCopy" :key="note.id">
-      <NotesItem :note="note" />
+      <NotesItem :note="note">
+        <DropDown :note="note" />
+      </NotesItem>
     </div>
   </ViewWrapper>
 </template>
