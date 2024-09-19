@@ -33,7 +33,6 @@ export const useNotesStore = defineStore('notes-store', {
           day: 'numeric', // Numeric day (e.g., 9)
           year: 'numeric' // Full year (e.g., 2024)
         }),
-        is_expanded: false,
         is_saved: false,
         is_trash: false
       }

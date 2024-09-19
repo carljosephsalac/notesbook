@@ -5,6 +5,9 @@ const props = defineProps({
   note: {
     type: Object,
     required: true
+  },
+  localNote: {
+    type: Object
   }
 })
 
@@ -56,17 +59,19 @@ console.log(sampleTruncate())
 
 const note = props.note
 
+const noteLocal = props.localNote ? props.localNote : note
+
 // logic for getting the note body
 const getBody = () => {
   if (note.body.length > 400) {
-    return note.is_expanded ? nl2br(e(note.body)) : nl2br(e(truncateText(note.body, 400)))
+    return noteLocal.is_expanded ? nl2br(e(note.body)) : nl2br(e(truncateText(note.body, 400)))
   } else {
     return nl2br(e(note.body))
   }
 }
 
 const isExpanded = computed(() => {
-  return note.is_expanded ? 'block ms-1 mt-1' : 'inline ms-1 mt-1'
+  return noteLocal.is_expanded ? 'block ms-1 mt-1' : 'inline ms-1 mt-1'
 })
 
 const longNote = () => note.body.length > 400
@@ -79,12 +84,12 @@ const toggleNote = async () => {
   if (noteRef.value) {
     const currentScrollPos = window.scrollY
 
-    if (note.is_expanded) {
+    if (noteLocal.is_expanded) {
       // Save the height of the note before collapsing
       const previousHeight = noteRef.value.clientHeight
 
       // Toggle the note's expansion
-      note.is_expanded = !note.is_expanded
+      noteLocal.is_expanded = !noteLocal.is_expanded
 
       // Wait for DOM updates
       await nextTick()
@@ -97,7 +102,7 @@ const toggleNote = async () => {
       window.scrollTo({ top: currentScrollPos - heightDifference })
     } else {
       // Expand the note without scroll adjustment
-      note.is_expanded = !note.is_expanded
+      noteLocal.is_expanded = !noteLocal.is_expanded
 
       // Smooth scroll to keep position after expanding
       window.scrollTo({ top: currentScrollPos })
@@ -125,7 +130,7 @@ const toggleNote = async () => {
       <span v-html="getBody()"></span>
       <div v-if="longNote()" :class="isExpanded">
         <span @click="toggleNote()" class="font-semibold hover:underline hover:cursor-pointer">
-          {{ !note.is_expanded ? 'See more' : 'See less' }}
+          {{ !noteLocal.is_expanded ? 'See more' : 'See less' }}
         </span>
       </div>
     </div>
